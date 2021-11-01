@@ -7,3 +7,7 @@ SKRIV IN DITT NAMN PÅ UPPGIFTEN DU VÄLJER!!!1!!!!11 =)
 3. Valfri plats: testa fram en array för katalogen(lista av trådar), invdividuella arrayer för varje tråd med innehåll
 4. Valfri plats: testa ta emot en jpg bild genom en html-bash server, spara bilden som en fil
 5. Valfri plats: 
+
+Nuvarande problem:
+Med koden jag la i kod-snippets så kan man bara visa en html sida. Om någon vet hur man kan visa flera olika sidor
+så skulle det göra det mer komplicerade projektet möjligt.
