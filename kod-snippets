@@ -1,1 +1,8 @@
 kasta in kod-snippets när ni gör färdigt en uppgift här, så kan vi sen skapa en server 1.0 tillsammans med dom.
+
+
+//skapa en index.htm fil, så visar den här filen
+while true; do { \
+  echo -ne "HTTP/1.0 200 OK\r\nContent-Length: $(wc -c <index.htm)\r\n\r\n"; \
+  cat index.htm; } | nc -l -p 8080 ; \ 
+done
