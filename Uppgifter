@@ -1,6 +1,0 @@
-*skapa en html form i bash som tar emot data
-*testa ta emot en jpg bild genom en html-bash server, spara bilden som en fil
-
-Nuvarande problem:
-Med koden jag la i kod-snippets så kan man bara visa en html sida. Om någon vet hur man kan visa flera olika sidor
-så skulle det göra det mer komplicerade projektet möjligt.
