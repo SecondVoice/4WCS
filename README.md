@@ -3,19 +3,4 @@
 
 Endast bashkod och simpla kommandon man kan calla som t.ex wget
 
-
-
-
-Roadmap:
-
-1. En samling kodexemplar relevanta för html och sånt
-2. En simpel server kärna som kan visa en sida
-3. Klient test som kan skicka data till servern
-4. Test på katalog med underliggande sida(testa att få klienten att skicka en trådstartare)
-5. tbd
-
-
-
-
-Flowchart att försöka nå:
-katalog över trådar -> en original post(OP) som startar en tråd -> posts som svarar på OP eller andra svar med eller utan bild
+Gör först en enkel textbaserad chattserver och client. som tar emot och skickar ut meddelanden.
