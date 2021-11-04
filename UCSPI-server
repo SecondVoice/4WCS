@@ -1,0 +1,12 @@
+tcpserver -v -RHl0 127.0.0.1 25565 /home/uplink/4WCS/ucspi/run.sh  
+^^^ Kommandot startar servern, se till att ha en hel sökväg till run.sh
+
+run.sh:
+
+#!/bin/bash
+echo -n "enter data: "
+read -r data
+echo "data: $data"
+echo
+
+connecta med: telnet 127.0.0.1
