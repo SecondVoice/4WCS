@@ -6,6 +6,6 @@ run.sh:
 #!/bin/bash
 echo -n "enter data: "
 read -r data
-echo "data: $data" > fil.txt
+echo "data: $data" >> fil.txt
 
 connecta med: telnet 127.0.0.1
