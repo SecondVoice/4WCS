@@ -3,7 +3,8 @@
 #client.sh
 #Author Sebastian Frohm
 
-#A program to connect to a tcpserver and scan ports if no port where added. Using tool netcat(nc).
+#A program to connect to a tcpserver. If no port where added, check "temp.txt" if previous session was a success, else
+#+ scan a range of ports. Using tool netcat(nc).
 
 server_ip=$1
 port=$2
