@@ -54,3 +54,12 @@ if [[ $port -eq 0 ]]; then
                                 break
                         fi
                 done
+                echo "Loop is done"
+                if [[ $result -eq 0 ]]; then
+                        echo "Found no connection, terminating"
+                        exit 1
+                fi
+        fi
+fi
+echo "Connecting to server with IP:$server_ip Port:$port"
+nc $server_ip $port
