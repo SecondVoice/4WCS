@@ -7,5 +7,7 @@ run.sh:
 echo -n "enter data: "
 read -r data
 echo "data: $data" >> fil.txt
+line=""
+while read line; do echo $line; done < fil.txt
 
 connecta med: telnet 127.0.0.1
