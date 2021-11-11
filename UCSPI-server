@@ -4,6 +4,7 @@ required_packages=(openssl tcpserver)
 PASSWORD="bacon"
 ENCRYPTION=1
 
+
 crypt(){
 #Takes a message from $1 and returns the encrypted and base64 encoded message
 MSG="${1}"
@@ -13,7 +14,7 @@ MSG="${1}"
 	  exit -1
 	fi
 
-CRYPT_MSG=$(echo ${MSG} | openssl enc -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
+	CRYPT_MSG=$(echo ${MSG} | openssl enc -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
 }
 
 dcrypt(){
@@ -28,20 +29,18 @@ MSG=${1}
 }
 
 while :
-data=""
-
-
-do
-
-echo -n "message: "
-read -r data
+ 	do
+	unset data
+ 	while [ -z ${data} ]; do
+	  read -rp "message: " data
+	done
 
 if [ $data = "_" ]; then #om man skriver _ ska man sen skriva hur många rader meddelanden man vill visa
         echo -n "lines:"
         read  number
 	if [ ${number} -le 0 ]
 	 then
-	   #Do Nothing
+	   #Do Nothing		
 		:
 	elif [ ${number} -gt 0 ]
 	 then 	
@@ -51,11 +50,11 @@ else #inget speciellt tecken, ett meddelande
 	if [ ${ENCRYPTION} -eq 1 ]
 	 then	
 		#Encryption is turned on
-		crypt $data
+		crypt ${data}
 		echo "${CRYPT_MSG}" >> fil.txt
 	 else
-		echo "$data" >> fil.txt
+		echo "${data}" >> fil.txt
 	fi
 fi
-done
 
+done
