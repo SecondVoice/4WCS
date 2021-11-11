@@ -3,7 +3,8 @@
 
 Endast bashkod och simpla kommandon man kan calla som t.ex wget
 
-Gör först en enkel textbaserad chattserver och client. som tar emot och skickar ut meddelanden.
+Kan man använda sig av process ID?
+Testa efter filändring?
 
 TODO:
 *Automatiskt nya meddelanden dyker upp för alla klienter efter ett skickats
