@@ -1,9 +1,31 @@
-tcpserver -v -RHl0 127.0.0.1 25565 /home/uplink/4WCS/ucspi/run.sh  
-^^^ Kommandot startar servern, se till att ha en hel sökväg till run.sh
+#!/bin/bash
 
-run.sh:
+required_packages=(openssl tcpserver)
+PASSWORD="bacon"
+ENCRYPTION=1
 
-!/bin/bash
+crypt(){
+#Takes a message from $1 and returns the encrypted and base64 encoded message
+MSG="${1}"
+
+	if [ -z "${MSG}" ]; then 
+	  echo "crypt needs a string"
+	  exit -1
+	fi
+
+CRYPT_MSG=$(echo ${MSG} | openssl enc -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
+}
+
+dcrypt(){
+#Takes an encrypted and base64 encoded message and returns the cleartext version
+MSG=${1}
+	if [ -z "${MSG}" ]; then 
+	  echo "crypt needs a string"
+	  exit -1
+	fi
+
+	CLEARTEXT_MSG=$(echo ${MSG} | openssl enc -d -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
+}
 
 while :
 data=""
@@ -19,16 +41,14 @@ if [ $data = "_" ]; then #om man skriver _ ska man sen skriva hur många rader m
         read  number
         tail -$number fil.txt
 else #inget speciellt tecken, ett meddelande
-echo "$data" >> fil.txt
-
+	if [ ${ENCRYPTION} -eq 1 ]
+	 then	
+		#Encryption is turned on
+		crypt $data
+		echo "${CRYPT_MSG}" >> fil.txt
+	 else
+		echo "$data" >> fil.txt
+	fi
 fi
 done
 
-
-
-
-
-
-
-connecta med: telnet 127.0.0.1
-eller netcat.
