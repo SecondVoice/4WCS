@@ -3,12 +3,32 @@ tcpserver -v -RHl0 127.0.0.1 25565 /home/uplink/4WCS/ucspi/run.sh
 
 run.sh:
 
-#!/bin/bash
-echo -n "enter data: "
+!/bin/bash
+
+while :
+data=""
+
+
+do
+
+echo -n "message: "
 read -r data
-echo "data: $data" >> fil.txt
-line=""
-while read line; do echo $line; done < fil.txt
+
+if [ $data = "_" ]; then #om man skriver _ ska man sen skriva hur många rader meddelanden man vill visa
+        echo -n "lines:"
+        read  number
+        tail -$number fil.txt
+else #inget speciellt tecken, ett meddelande
+echo "$data" >> fil.txt
+
+fi
+done
+
+
+
+
+
+
 
 connecta med: telnet 127.0.0.1
 eller netcat.
