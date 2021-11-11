@@ -39,7 +39,14 @@ read -r data
 if [ $data = "_" ]; then #om man skriver _ ska man sen skriva hur många rader meddelanden man vill visa
         echo -n "lines:"
         read  number
+	if [ ${number} -le 0 ]
+	 then
+	   #Do Nothing
+		:
+	elif [ ${number} -gt 0 ]
+	 then 	
         tail -$number fil.txt
+	fi
 else #inget speciellt tecken, ett meddelande
 	if [ ${ENCRYPTION} -eq 1 ]
 	 then	
