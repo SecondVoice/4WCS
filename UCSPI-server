@@ -1,14 +1,88 @@
-tcpserver -v -RHl0 127.0.0.1 25565 /home/uplink/4WCS/ucspi/run.sh  
-^^^ Kommandot startar servern, se till att ha en hel sökväg till run.sh
-
-run.sh:
-
 #!/bin/bash
-echo -n "enter data: "
-read -r data
-echo "data: $data" >> fil.txt
-line=""
-while read line; do echo $line; done < fil.txt
 
-connecta med: telnet 127.0.0.1
-eller netcat.
+#Encrypted server-chat using UCSPI-TCPSERVER
+
+config=path/to/server_config.cfg
+E_NO_PARAMS=1 #no parameters added
+
+use(){
+        echo "Add a filepath: /file/path"
+        exit ${E_NO_PARAMS}
+}
+
+config_parser(){
+	#Go through the config file, remove the '=' delimiter and add the settings to our array.
+	while read line
+	do
+		if echo $line | grep -F = &>/dev/null #no stdout and stderr
+		then
+			varname=$(echo "$line" | cut -d '=' -f 1)
+			config_array[$varname]=$(echo "$line" | cut -d '=' -f 2-)
+		fi
+	done < $config
+	echo $config_array
+}
+
+
+typeset -A config_array # init array before using config_parser()
+config_parser $config_array
+
+required_packages=(openssl tcpserver)
+PASSWORD=${config_array[password]}
+ENCRYPTION=${config_array[encryption]}
+PORT=${config_array[port]}
+
+
+crypt(){
+#Takes a message from $1 and returns the encrypted and base64 encoded message
+MSG="${1}"
+
+	if [ -z "${MSG}" ]; then 
+	  echo "crypt needs a string"
+	  exit -1
+	fi
+
+	CRYPT_MSG=$(echo ${MSG} | openssl enc -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
+}
+
+dcrypt(){
+#Takes an encrypted and base64 encoded message and returns the cleartext version
+MSG=${1}
+	if [ -z "${MSG}" ]; then 
+	  echo "crypt needs a string"
+	  exit -1
+	fi
+
+	CLEARTEXT_MSG=$(echo ${MSG} | openssl enc -d -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
+}
+
+while :
+ 	do
+	unset data
+ 	while [ -z ${data} ]; do
+	  read -rp "message: " data
+	done
+
+if [ $data = "_" ]; then #om man skriver _ ska man sen skriva hur många rader meddelanden man vill visa
+        echo -n "lines:"
+        read  number
+	if [ ${number} -le 0 ]
+	 then
+	   #Do Nothing		
+		:
+	elif [ ${number} -gt 0 ]
+	 then 	
+        tail -$number fil.txt
+	fi
+else #inget speciellt tecken, ett meddelande
+	if [ ${ENCRYPTION} -eq 1 ]
+	 then	
+		#Encryption is turned on
+		crypt ${data}
+		echo "${CRYPT_MSG}" >> fil.txt
+	 else
+		echo "${data}" >> fil.txt
+	fi
+fi
+
+done
