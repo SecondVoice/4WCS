@@ -33,54 +33,50 @@ print_history(){
 #Take number of history lines to print as argument
 declare -i numlines=${1}
 	if [ ${numlines} -le 0 ]; then
-						: # Do Nothing
-									##################################################################
-									# Test Number																										 #
-									##################################################################
-									
-									elif [ ${numlines} -gt 0 ]; then
-											if [ ${ENCRYPTION} -eq 1 ]; then									
-													printf "printing last ${numlines} lines\n"		
-													declare -a MSG_LIST=($(tail -n${numlines} fil.txt))
-													for msg in ${MSG_LIST[@]}
-												  	do
-															 dcrypt ${msg}
-														 	 printf %"s\n" $CLEARTEXT_MSG	 
-														done
-											elif [ ${ENCRYPTION} -eq 0 ]; then
-														tail -n${numlines} fil.txt
-											fi
-	fi	
-							}
+		: # Do Nothing
+	##################################################################
+	# Test Number																										 #
+	##################################################################
+
+	elif [ ${numlines} -gt 0 ]; then
+	   if [ ${ENCRYPTION} -eq 1 ]; then
+		  printf "printing last ${numlines} lines\n"
+		  declare -a MSG_LIST=($(tail -n${numlines} fil.txt))
+		    for msg in ${MSG_LIST[@]}
+		do
+		    dcrypt ${msg}
+		    printf %"s\n" $CLEARTEXT_MSG
+		done
+	    elif [ ${ENCRYPTION} -eq 0 ]; then
+		tail -n${numlines} fil.txt
+	    fi
+	fi
+ }
 while :
  	do
 	unset data
 
- 				while [ -z ${data} ]; do
-	  		   read -rp "message: " data
-				done
+ 	while [ -z ${data} ]; do
+	  read -rp "message: " data
+	done
 
-    					if [ ${data} = "_" ]; then		
-									read -rp "lines?: " number
-									##################################################################
-									# Test Number																										 #
-									##################################################################
-									print_history ${number}
-							
-								#####################################################################
-								#	Data is a regular message
-								#####################################################################
-							else
-											if [ ${ENCRYPTION} -eq 1 ]; then
-												crypt ${data}
-												echo "${CRYPT_MSG}" >> fil.txt
+    	if [ ${data} = "_" ]; then
+	  read -rp "lines?: " number
+	  print_history ${number}
 
-											elif [ ${ENCRYPTION} -eq 0 ]; then
+	#####################################################################
+	#	Data is a regular message
+	#####################################################################
+	else
+	if [ ${ENCRYPTION} -eq 1 ]; then
+	  crypt ${data}
+	  echo "${CRYPT_MSG}" >> fil.txt
 
-												echo "${data}" >> fil.txt
-									 		fi
-							fi			
-														
-					
-				
+	elif [ ${ENCRYPTION} -eq 0 ]; then
+
+	  echo "${data}" >> fil.txt
+	fi
+	fi
+
+
 done
