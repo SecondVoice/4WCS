@@ -2,7 +2,7 @@
 
 required_packages=(openssl tcpserver)
 PASSWORD="bacon"
-ENCRYPTION=0
+ENCRYPTION=1
 
 
 crypt(){
@@ -29,6 +29,29 @@ MSG="${1}"
 	CLEARTEXT_MSG=$(echo ${MSG} | openssl enc -d -aes-256-cbc -pbkdf2 -a -pass pass:$(echo ${PASSWORD}))
 }
 
+print_history(){
+#Take number of history lines to print as argument
+declare -i numlines=${1}
+	if [ ${numlines} -le 0 ]; then
+						: # Do Nothing
+									##################################################################
+									# Test Number																										 #
+									##################################################################
+									
+									elif [ ${numlines} -gt 0 ]; then
+											if [ ${ENCRYPTION} -eq 1 ]; then									
+													printf "printing last ${numlines} lines\n"		
+													declare -a MSG_LIST=($(tail -n${numlines} fil.txt))
+													for msg in ${MSG_LIST[@]}
+												  	do
+															 dcrypt ${msg}
+														 	 printf %"s\n" $CLEARTEXT_MSG	 
+														done
+											elif [ ${ENCRYPTION} -eq 0 ]; then
+														tail -n${numlines} fil.txt
+											fi
+	fi	
+							}
 while :
  	do
 	unset data
@@ -42,33 +65,22 @@ while :
 									##################################################################
 									# Test Number																										 #
 									##################################################################
-									if [ ${number} -le 0 ]; then
-													: # Do Nothing
-									elif [ ${number} -gt 0 ]; then
-											if [ ${ENCRYPTION} -eq 1 ]; then									
-													printf "printing last ${number} lines\n"		
-													declare -a MSG_LIST=($(tail -n${number} fil.txt))
-													for msg in ${MSG_LIST[@]}
-												  	do
-															 dcrypt ${msg}
-														 	 printf %"s\n" $CLEARTEXT_MSG	 
-														done
-											elif [ ${ENCRYPTION} -eq 0 ]; then
-														tail -n${number} fil.txt
-											fi	
-									fi
+									print_history ${number}
+							
 								#####################################################################
 								#	Data is a regular message
 								#####################################################################
-								else
+							else
 											if [ ${ENCRYPTION} -eq 1 ]; then
 												crypt ${data}
 												echo "${CRYPT_MSG}" >> fil.txt
 
-											elif [ ${ENCRYPTION} -eq 0]; then
+											elif [ ${ENCRYPTION} -eq 0 ]; then
+
 												echo "${data}" >> fil.txt
-									 		fi			
+									 		fi
+							fi			
 														
-						fi
+					
 				
 done
