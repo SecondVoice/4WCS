@@ -1,9 +1,35 @@
 #!/bin/bash
 
-required_packages=(openssl tcpserver)
-PASSWORD="bacon"
-ENCRYPTION=1
 
+config="$(pwd)/server_config.cfg"
+E_NO_PARAMS=1 #no parameters added
+
+use(){
+        echo "Add a filepath: /file/path"
+        exit ${E_NO_PARAMS}
+}
+
+config_parser(){
+    #Go through the config file, remove the '=' delimiter and add the settings to our array.
+    while read line
+    do
+        if echo $line | grep -F = &>/dev/null #no stdout and stderr
+        then
+            varname=$(echo "$line" | cut -d '=' -f 1)
+            config_array[$varname]=$(echo "$line" | cut -d '=' -f 2-)
+        fi
+    done < $config
+    echo $config_array
+}
+
+
+typeset -A config_array # init array before using config_parser()
+config_parser $config_array
+
+required_packages=(openssl tcpserver)
+PASSWORD=${config_array[password]}
+ENCRYPTION=${config_array[encryption]}
+PORT=${config_array[port]}
 
 crypt(){
 #Takes a message from $1 and returns the encrypted and base64 encoded message
