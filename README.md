@@ -8,4 +8,5 @@ Testa efter filändring?
 
 TODO:
 *Automatiskt nya meddelanden dyker upp för alla klienter efter ett skickats.
+*Koppla en konfigurationsfil till servern. <- Klart
 *Koppla en konfigurationsfil till klienten.
