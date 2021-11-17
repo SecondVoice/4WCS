@@ -30,6 +30,8 @@ required_packages=(openssl tcpserver)
 PASSWORD=${config_array[password]}
 ENCRYPTION=${config_array[encryption]}
 PORT=${config_array[port]}
+MOTD=${config_array[motd]}
+BANNER=${config_array[banner]}
 
 crypt(){
 #Takes a message from $1 and returns the encrypted and base64 encoded message
@@ -78,6 +80,12 @@ declare -i numlines=${1}
 	    fi
 	fi
  }
+ 
+echo $BANNER #Write out banner
+echo $MOTD #Write out Message Of The Day
+lineCount=$(wc -l fil.txt | grep -o [0-9])
+echo "$lineCount messages as of now on here" #notify user on how many messages are on the server
+
 while :
  	do
 	unset data
