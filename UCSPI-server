@@ -91,11 +91,13 @@ while :
 	unset data
 
  	while [ -z ${data} ]; do
-	  read -rp "message: " data
+	  echo -n "message: "
+	  read data
 	done
 
     	if [ ${data} = "_" ]; then
-	  read -rp "lines?: " number
+	  echo -n "how many lines to show?: "
+	  read number
 	  print_history ${number}
 
 	#####################################################################
