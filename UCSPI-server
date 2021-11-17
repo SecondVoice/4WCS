@@ -13,7 +13,7 @@ config_parser(){
     #Go through the config file, remove the '=' delimiter and add the settings to our array.
     while read line
     do
-        if echo $line | grep -F = &>/dev/null #no stdout and stderr
+        if echo "$line" | grep -F = &>/dev/null #no stdout and stderr
         then
             varname=$(echo "$line" | cut -d '=' -f 1)
             config_array[$varname]=$(echo "$line" | cut -d '=' -f 2-)
