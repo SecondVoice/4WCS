@@ -23,7 +23,7 @@ config_parser(){
 }
 
 
-typeset -A config_array # init array before using config_parser()
+declare -A config_array # init array before using config_parser()
 config_parser $config_array
 
 required_packages=(openssl tcpserver)
