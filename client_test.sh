@@ -9,7 +9,7 @@
 server_ip=$1
 port=$2
 
-typeset -A config_array # init array
+declare -A config_array # init array
 #Go through the config file, remove the '=' delimiter and add the settings to our array.
 while read line
   do
